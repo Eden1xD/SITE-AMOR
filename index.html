@@ -66,7 +66,6 @@ audio{ margin-top:15px; width:100%; outline:none; }
 <script>
 const previewNomes = document.getElementById('previewNomes');
 const previewMensagem = document.getElementById('previewMensagem');
-const countdownEl = document.getElementById('countdown');
 const previewDiv = document.getElementById('preview');
 const audioPreview = document.getElementById('audioPreview');
 const imgMain = document.getElementById('imgMain');
@@ -144,19 +143,19 @@ document.getElementById('gerarQr').addEventListener('click', async ()=>{
     const jsonData = encodeURIComponent(JSON.stringify(data));
     const conviteURL = `${window.location.origin}/convite.html?data=${jsonData}`;
     
-    // Abrir convite final em nova aba
+    // Abrir convite final
     window.open(conviteURL,'_blank');
 
     // Gerar QR Code
-    const qrDataUrl = await QRCode.toDataURL(conviteURL,{width:300});
-    // Baixar QR Code como PDF
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.text("Convite QR Code",20,20);
-    doc.addImage(qrDataUrl,'PNG',20,30,160,160);
-    doc.save("convite_qrcode.pdf");
+    QRCode.toDataURL(conviteURL,{width:300},function(err,url){
+        if(err) return console.error(err);
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text("Convite Neon QR Code",20,20);
+        doc.addImage(url,'PNG',20,30,160,160);
+        doc.save("convite_qrcode.pdf");
+    });
 });
 </script>
 </body>
 </html>
-
