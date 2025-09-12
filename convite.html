@@ -132,6 +132,7 @@ h1 {
 }
 #galeria img:hover { transform: scale(1.2); border-color:#ff3fff; }
 audio{ margin-top:15px; width:100%; outline:none; }
+
 .coração{
   position:absolute;
   width:20px;
@@ -143,6 +144,21 @@ audio{ margin-top:15px; width:100%; outline:none; }
 @keyframes flutuar{
   0%{transform: translateY(0) scale(0.5); opacity:1;}
   100%{transform: translateY(-200px) scale(1); opacity:0;}
+}
+
+/* QR Code discreto */
+#qrcode{
+  margin-top:10px;
+}
+#btnDownload{
+  margin-top:5px;
+  padding:5px 10px;
+  font-size:12px;
+  border:none;
+  border-radius:5px;
+  background:#ff6fff;
+  color:#fff;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -170,8 +186,13 @@ audio{ margin-top:15px; width:100%; outline:none; }
 
 <audio id="audio" controls autoplay></audio>
 <div id="galeria"></div>
+
+<!-- QR Code + botão download -->
+<div id="qrcode"></div>
+<button id="btnDownload">Baixar QR Code</button>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script>
 function getQueryData(){
     const params = new URLSearchParams(window.location.search);
@@ -197,6 +218,7 @@ if(convite){
         });
     }
 
+    // Contador
     function updateCountdown(){
         const now=new Date();
         const date=new Date(convite.data_namoro);
@@ -214,6 +236,37 @@ if(convite){
     }
     updateCountdown();
     setInterval(updateCountdown,1000);
+
+    // Gerar QR Code
+    const qrcodeContainer = document.getElementById('qrcode');
+    const btnDownload = document.getElementById('btnDownload');
+    const conviteURL = window.location.href; // QR Code do próprio convite
+
+    QRCode.toCanvas(qrcodeContainer, conviteURL, {
+        width: 150,
+        margin: 2,
+        color: { dark: "#000000", light: "#ffffff" },
+        errorCorrectionLevel: 'H'
+    }, function (error){
+        if(error) console.error(error);
+    });
+
+    // Botão download
+    btnDownload.addEventListener('click', ()=>{
+        const canvas = qrcodeContainer.querySelector('canvas');
+        if(canvas){
+            canvas.toBlob(function(blob){
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'convite_qrcode.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }, 'image/png');
+        }
+    });
+} else {
+    document.getElementById('btnDownload').style.display = 'none';
 }
 
 // Carta animada
@@ -233,4 +286,3 @@ for(let i=0;i<20;i++){
 </script>
 </body>
 </html>
-
