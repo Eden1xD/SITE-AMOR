@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convite Neon 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+body {
+  font-family:'Arial',sans-serif;
+  margin:0;
+  padding:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  background:#111;
+  color:#fff;
+  overflow:hidden;
+}
+#convite {
+  width:90%;
+  max-width:650px;
+  padding:20px;
+  text-align:center;
+  position:relative;
+}
+h1 {
+  font-family:'Pacifico',cursive;
+  font-size:3rem;
+  color:#ff6fff;
+  text-shadow:0 0 5px #ff6fff,0 0 10px #ff3fff,0 0 20px #ff6fff;
+  margin:10px 0;
+  animation: glowText 2s infinite alternate;
+}
+@keyframes glowText{
+  0%{ text-shadow:0 0 5px #ff6fff,0 0 10px #ff3fff,0 0 20px #ff6fff; }
+  50%{ text-shadow:0 0 15px #ff6fff,0 0 30px #ff3fff,0 0 40px #ff6fff; }
+  100%{ text-shadow:0 0 5px #ff6fff,0 0 10px #ff3fff,0 0 20px #ff6fff; }
+}
+#imgMain {
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  margin:15px 0;
+  border:5px solid #ff6fff;
+  box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff;
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow{
+  0%{ box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; }
+  50%{ box-shadow:0 0 40px #ff6fff,0 0 60px #ff3fff,0 0 80px #ff6fff; }
+  100%{ box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; }
+}
+#mensagem {
+  font-size:20px;
+  margin:10px 0;
+  text-shadow:0 0 5px #ff6fff,0 0 10px #ff3fff;
+}
+#tempoAmor {
+  font-size:16px;
+  color:#ff3fff;
+  margin:10px 0;
+  text-shadow:0 0 5px #ff6fff,0 0 10px #ff3fff;
+}
+#countdown {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.count-box {
+  background:#111;
+  border:2px solid #ff6fff;
+  padding:10px 15px;
+  border-radius:10px;
+  box-shadow:0 0 10px #ff6fff,0 0 20px #ff3fff;
+  font-weight:bold;
+  font-size:18px;
+  min-width:60px;
+}
+#carta {
+  width:80%;
+  max-width:500px;
+  margin:20px auto;
+  padding:15px;
+  background:#222;
+  border-radius:15px;
+  box-shadow:0 0 20px #ff6fff inset;
+  cursor:pointer;
+  position:relative;
+  perspective:1000px;
+  animation: pulse 2s infinite alternate;
+}
+@keyframes pulse{
+  0%{ transform: scale(1); }
+  50%{ transform: scale(1.03); }
+  100%{ transform: scale(1); }
+}
+#carta .frente, #carta .tras{
+  backface-visibility:hidden;
+  transition: transform 1s;
+  border-radius:15px;
+}
+#carta.abrir .frente{ transform: rotateY(180deg); }
+#carta.abrir .tras{ transform: rotateY(0deg); }
+#carta .tras{
+  transform: rotateY(-180deg);
+  background:#111;
+  padding:20px;
+  color:#ff6fff;
+  text-align:left;
+  font-size:18px;
+  line-height:1.4;
+}
+#galeria {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:15px;
+  flex-wrap:wrap;
+}
+#galeria img {
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  border-radius:10px;
+  border:2px solid #ff6fff;
+  transition:0.3s;
+}
+#galeria img:hover { transform: scale(1.2); border-color:#ff3fff; }
+audio{ margin-top:15px; width:100%; outline:none; }
+.coração{
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:red;
+  clip-path:polygon(50% 0%, 61% 18%, 80% 18%, 69% 31%, 75% 50%, 50% 40%, 25% 50%, 31% 31%, 20% 18%, 39% 18%);
+  animation: flutuar 3s linear infinite;
+}
+@keyframes flutuar{
+  0%{transform: translateY(0) scale(0.5); opacity:1;}
+  100%{transform: translateY(-200px) scale(1); opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<div id="convite">
+<h1 id="nomes">Seu Nome & Parceiro(a)</h1>
+<img id="imgMain" src="" style="display:none;">
+<p id="mensagem">Mensagem de amor...</p>
+<div id="tempoAmor">Se amando há 0 dias</div>
+<div id="countdown">
+<div class="count-box" id="dias">00d</div>
+<div class="count-box" id="horas">00h</div>
+<div class="count-box" id="minutos">00m</div>
+<div class="count-box" id="segundos">00s</div>
+</div>
+
+<div id="carta">
+  <div class="frente">💌 Clique para abrir a carta do amor 💌</div>
+  <div class="tras">
+    <h2>Minha querida/o,</h2>
+    <p>Você é meu tudo! 💖💖💖</p>
+    <p>Para sempre juntos, vivendo momentos incríveis e inesquecíveis...</p>
+  </div>
+</div>
+
+<audio id="audio" controls></audio>
+<div id="galeria"></div>
+</div>
+
+<script>
+function getQueryData(){
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get('data');
+    if(!data) return null;
+    return JSON.parse(decodeURIComponent(data));
+}
+
+const convite = getQueryData();
+if(convite){
+    document.body.style.background = convite.cor_fundo || '#111';
+    document.getElementById('nomes').textContent = convite.nomes || '';
+    document.getElementById('mensagem').textContent = convite.mensagem || '';
+    if(convite.musica) document.getElementById('audio').src = convite.musica;
+    const imgMain = document.getElementById('imgMain');
+    if(convite.imgPrincipal){ imgMain.src = convite.imgPrincipal; imgMain.style.display='block'; }
+    const galeriaDiv = document.getElementById('galeria');
+    if(convite.galeria && convite.galeria.length){
+        convite.galeria.slice(0,3).forEach(src=>{
+            const img=document.createElement('img'); img.src=src; galeriaDiv.appendChild(img);
+        });
+    }
+    function updateCountdown(){
+        const now=new Date();
+        const date=new Date(convite.data_namoro);
+        let diff=Math.abs(date-now)/1000;
+        const dias=Math.floor(diff/86400);
+        diff-=dias*86400;
+        const horas=Math.floor(diff/3600)%24;
+        const minutos=Math.floor(diff/60)%60;
+        const segundos=Math.floor(diff%60);
+        document.getElementById('dias').textContent=`${dias}d`;
+        document.getElementById('horas').textContent=`${horas}h`;
+        document.getElementById('minutos').textContent=`${minutos}m`;
+        document.getElementById('segundos').textContent=`${segundos}s`;
+        document.getElementById('tempoAmor').textContent=`Se amando há ${dias} dias`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown,1000);
+}
+
+const carta = document.getElementById('carta');
+carta.addEventListener('click', ()=>{ carta.classList.toggle('abrir'); });
+
+// Adiciona corações animados
+for(let i=0;i<20;i++){
+    const heart=document.createElement('div');
+    heart.className='coração';
+    heart.style.left=Math.random()*90+'%';
+    heart.style.animationDelay=Math.random()*2+'s';
+    heart.style.width=(10+Math.random()*15)+'px';
+    heart.style.height=heart.style.width;
+    document.body.appendChild(heart);
+}
+</script>
+</body>
+</html>

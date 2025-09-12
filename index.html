@@ -2,360 +2,168 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Convite com Amor 💖</title>
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convite de Namoro Neon 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins&display=swap');
-
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  min-height:100vh;
-  overflow-x:hidden;
-  position:relative;
-}
-
-h1{
-  font-size:3em;
-  color:#fff;
-  text-shadow:0 0 15px #ff4da6,0 0 25px #ff99cc;
-  margin:15px 0;
-}
-
-.main-image{
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  object-fit:cover;
-  border:5px solid #fff;
-  box-shadow:0 0 30px #ff4da6;
-  margin:20px auto;
-  animation:pulse 2s infinite alternate;
-}
-
-@keyframes pulse{
-  from{transform:scale(1);box-shadow:0 0 20px #ff4da6;}
-  to{transform:scale(1.05);box-shadow:0 0 50px #ff99cc;}
-}
-
-.love-message{
-  font-size:1.3em;
-  color:#fff;
-  margin:15px auto;
-  text-shadow:0 0 12px #ff0066,0 0 20px #ff3399;
-  animation: glowText 2s infinite alternate;
-  white-space: pre-wrap;
-  max-width:80%;
-  word-wrap: break-word;
-}
-
-@keyframes glowText{
-  from{text-shadow:0 0 8px #ff0066;}
-  to{text-shadow:0 0 25px #ff99cc;}
-}
-
-.counter-title{
-  font-family:'Dancing Script',cursive;
-  font-size:1.2em;
-  color:#fff;
-  text-shadow:0 0 6px #ff66aa,0 0 12px #ff99cc;
-  margin-bottom:10px;
-}
-
-.counter{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin:20px 0;
-}
-
-.counter div{
-  background:rgba(255,255,255,0.15);
-  border:2px solid #fff;
-  padding:15px 10px;
-  border-radius:15px;
-  min-width:60px;
-  color:#fff;
-  font-size:1.3em;
-  font-weight:bold;
-  position:relative;
-  overflow:hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-  text-align:center;
-}
-
-.counter div:hover{
-  transform:scale(1.1) rotate(-2deg);
-  box-shadow:0 0 25px #ff99cc,0 0 50px #ff4da6;
-}
-
-.counter div::after{
-  content:'';
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:linear-gradient(45deg,#fff0,#fff0,#ff99cc,#fff0);
-  top:0; left:-100%;
-  animation:shine 2s infinite;
-  border-radius:15px;
-}
-
-@keyframes shine{
-  from{left:-100%;}
-  to{left:100%;}
-}
-
-.counter .label{
-  display:block;
-  font-size:0.8em;
-  margin-top:5px;
-}
-
-.letter{
-  margin:30px auto;
-  padding:25px;
-  width:340px;
-  background:#fff;
-  border-radius:15px;
-  box-shadow:0 0 25px rgba(0,0,0,0.2);
-  transform:rotate(-1deg);
-  cursor:pointer;
-  transition:transform 0.5s ease;
-  position:relative;
-}
-
-.letter.open{
-  transform:rotate(0deg) scale(1.05);
-  background:#fff8f8;
-  box-shadow:0 0 35px #ff4da6;
-}
-
-.letter p{
-  font-size:1.1em;
-  color:#444;
-  display:none;
-  white-space: pre-wrap;
-}
-
-.letter.open p{
-  display:block;
-  animation:fadeIn 1s forwards;
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(10px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-.gallery{
-  margin:30px auto;
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  perspective:1000px;
-}
-
-.gallery img{
-  width:100px;
-  height:100px;
-  border-radius:12px;
-  object-fit:cover;
-  box-shadow:0 0 15px #fff;
-  transition: transform 0.4s ease;
-  cursor:pointer;
-}
-
-.gallery img:hover{
-  transform:rotateY(15deg) rotateX(10deg) scale(1.2);
-}
-
-.config-panel{
-  margin-top:40px;
-  background:rgba(255,255,255,0.15);
-  padding:20px;
-  border-radius:15px;
-  width:85%;
-  max-width:550px;
-  box-shadow:0 0 20px rgba(255,255,255,0.4);
-  color:#fff;
-  text-align:left;
-  transition: all 0.5s ease;
-}
-
-.config-panel.hidden{display:none;}
-
-.config-panel h2{
-  margin-bottom:15px;
-  font-size:1.4em;
-  text-align:center;
-}
-
-.config-panel label{display:block;margin-top:12px;font-weight:bold;}
-.config-panel input, .config-panel select{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:none;font-size:1em;}
-.config-panel button{padding:12px 20px;border:none;border-radius:10px;background:#ff4da6;color:#fff;font-weight:bold;font-size:1em;margin-top:10px;cursor:pointer;transition: background 0.3s, transform 0.3s;width:100%;}
-.config-panel button:hover{background:#ff0066;transform: scale(1.05);}
-#qrcode{margin-top:25px;text-align:center;}
-audio{margin-top:15px;display:none;}
+body { font-family: 'Arial', sans-serif; margin:0; padding:0; display:flex; flex-direction:column; align-items:center; min-height:100vh; background:#111; color:#fff; overflow-x:hidden; }
+h1 { font-family: 'Pacifico', cursive; font-size:3rem; color:#ff6fff; text-shadow:0 0 5px #ff6fff,0 0 10px #ff6fff,0 0 20px #ff6fff; margin:20px 0; }
+.container { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; width:90%; max-width:1200px; }
+.box { background: rgba(20,20,20,0.8); border: 2px solid #ff6fff; border-radius:15px; padding:20px; flex:1 1 300px; min-width:280px; box-shadow:0 0 20px #ff6fff; transition:0.3s; }
+.box:hover { box-shadow:0 0 40px #ff6fff; }
+label { margin-top:10px; display:block; font-weight:bold; }
+input,textarea,select { width:100%; padding:8px; margin-top:5px; border-radius:8px; border:1px solid #ff6fff; background:#111; color:#fff; font-size:16px; }
+input:focus,textarea:focus{ outline:none; border-color:#ff3fff; box-shadow:0 0 10px #ff3fff; }
+button { margin-top:15px; padding:12px 20px; border:none; border-radius:10px; background:#ff6fff; color:#fff; font-size:18px; cursor:pointer; transition:0.3s; box-shadow: 0 0 5px #ff6fff, 0 0 10px #ff6fff, 0 0 20px #ff6fff; }
+button:hover { box-shadow:0 0 15px #ff3fff,0 0 30px #ff3fff,0 0 60px #ff3fff; }
+#preview { position:relative; width:100%; min-height:500px; border-radius:15px; overflow:hidden; text-align:center; background:#111; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:15px; box-shadow: 0 0 20px #ff6fff inset; }
+#imgMain { width:150px; height:150px; border-radius:50%; object-fit:cover; margin:10px 0; border:5px solid #ff6fff; box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; animation: glow 2s infinite alternate; }
+@keyframes glow{ 0%{ box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; } 50%{ box-shadow:0 0 40px #ff6fff,0 0 60px #ff3fff,0 0 80px #ff6fff; } 100%{ box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; } }
+#previewMensagem { font-size:20px; margin:10px 0; text-shadow:0 0 5px #ff6fff,0 0 10px #ff3fff; }
+#countdown { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; justify-content:center; }
+.count-box { background:#111; border:2px solid #ff6fff; padding:10px 15px; border-radius:10px; box-shadow:0 0 10px #ff6fff,0 0 20px #ff3fff; font-weight:bold; font-size:18px; min-width:60px; }
+#galeria { display:flex; justify-content:center; gap:10px; margin-top:10px; flex-wrap:wrap; }
+#galeria img { width:80px; height:80px; object-fit:cover; border-radius:10px; border:2px solid #ff6fff; cursor:pointer; transition:transform 0.3s; }
+#galeria img:hover { transform: scale(1.2); border-color:#ff3fff; }
+audio{ margin-top:15px; width:100%; outline:none; }
 </style>
 </head>
 <body>
 
-<h1>Convite com Amor 💕</h1>
-
-<img src="https://i.imgur.com/0Zf7uFd.jpg" alt="Imagem principal" class="main-image" id="mainImage">
-
-<div class="love-message" id="loveMessage">Estamos juntos há...</div>
-
-<div class="counter-title">Estamos se amando há</div>
-<div class="counter" id="counter">
-  <div><span id="months">0</span><span class="label">Meses</span></div>
-  <div><span id="days">0</span><span class="label">Dias</span></div>
-  <div><span id="hours">0</span><span class="label">Horas</span></div>
-  <div><span id="minutes">0</span><span class="label">Min</span></div>
-  <div><span id="seconds">0</span><span class="label">Seg</span></div>
+<h1>Convite Neon 💖</h1>
+<div class="container">
+<div class="box">
+<h2>Configuração do Convite</h2>
+<label>Nome do casal:</label>
+<input type="text" id="nomes" placeholder="Ex: João & Maria">
+<label>Mensagem:</label>
+<textarea id="mensagem" rows="4" placeholder="Mensagem de amor..."></textarea>
+<label>Data do namoro:</label>
+<input type="datetime-local" id="data_namoro">
+<label>Link da música (MP3/URL):</label>
+<input type="text" id="musica" placeholder="https://link-da-musica.mp3">
+<label>Cor de fundo:</label>
+<input type="color" id="cor_fundo" value="#111111">
+<label>Imagem principal:</label>
+<input type="file" id="imgPrincipal" accept="image/*">
+<label>Galeria (até 3 imagens):</label>
+<input type="file" id="galeriaInput" accept="image/*" multiple>
+<button id="previewBtn">Atualizar Preview</button>
+<button id="gerarQr">Criar & Baixar QR Code</button>
 </div>
 
-<div class="letter" id="letter">
-  <strong>Clique para abrir a carta 💌</strong>
-  <p id="letterText">Você é a melhor parte da minha vida 💖</p>
+<div class="box">
+<h2>Preview</h2>
+<div id="preview">
+<h2 id="previewNomes">Seu Nome & Parceiro(a)</h2>
+<p id="previewMensagem">Mensagem de amor...</p>
+<img id="imgMain" src="" style="display:none;">
+<div id="galeria"></div>
+<div id="countdown">
+<div class="count-box" id="dias">00d</div>
+<div class="count-box" id="horas">00h</div>
+<div class="count-box" id="minutos">00m</div>
+<div class="count-box" id="segundos">00s</div>
+</div>
+<audio id="audioPreview" controls></audio>
+</div>
+</div>
 </div>
 
-<div class="gallery" id="gallery">
-  <img src="https://i.imgur.com/2yaf2wb.jpg" id="img1">
-  <img src="https://i.imgur.com/Wf1xR0N.jpg" id="img2">
-  <img src="https://i.imgur.com/b7XG0l9.jpg" id="img3">
-</div>
-
-<audio id="musicPlayer" controls autoplay loop></audio>
-
-<div class="config-panel" id="configPanel">
-  <h2>⚙️ Configurações do Convite</h2>
-  <label>Data de início:</label>
-  <input type="date" id="startDate">
-  <label>Mensagem da carta (máx 200 chars):</label>
-  <input type="text" id="customLetter" maxlength="200" placeholder="Digite sua mensagem...">
-  <label>Mensagem abaixo da imagem (máx 150 chars):</label>
-  <input type="text" id="customMessage" maxlength="150" placeholder="Digite sua frase romântica...">
-  <label>Fonte da carta:</label>
-  <select id="fontSelect">
-    <option value="'Poppins', sans-serif">Padrão</option>
-    <option value="'Dancing Script', cursive">Romântica</option>
-    <option value="'Courier New', monospace">Digitada</option>
-  </select>
-  <label>Cor do tema:</label>
-  <input type="color" id="themeColor" value="#ff9a9e">
-  <label>Cor do contador:</label>
-  <input type="color" id="counterColor" value="#ffffff">
-  <label>Imagem principal:</label>
-  <input type="file" id="mainImageInput" accept="image/*">
-  <label>Imagens da galeria:</label>
-  <input type="file" id="galleryInput1" accept="image/*">
-  <input type="file" id="galleryInput2" accept="image/*">
-  <input type="file" id="galleryInput3" accept="image/*">
-  <label>Música de fundo:</label>
-  <input type="file" id="musicInput" accept="audio/*">
-  <button onclick="applyConfig()">Aplicar Configurações</button>
-  <button onclick="createAndSaveQRCode()">Criar e Salvar QR Code</button>
-  <div id="qrcode"></div>
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script>
-let startDateInput=document.getElementById("startDate");
-let loveMessage=document.getElementById("loveMessage");
-let letter=document.getElementById("letter");
-let letterText=document.getElementById("letterText");
-let fontSelect=document.getElementById("fontSelect");
+const previewNomes = document.getElementById('previewNomes');
+const previewMensagem = document.getElementById('previewMensagem');
+const countdownEl = document.getElementById('countdown');
+const previewDiv = document.getElementById('preview');
+const audioPreview = document.getElementById('audioPreview');
+const imgMain = document.getElementById('imgMain');
+const galeriaDiv = document.getElementById('galeria');
+let galeriaImgs = [];
 
-function applyConfig(){
-  // Background
-  document.body.style.background=document.getElementById("themeColor").value;
-  // Counter color
-  document.querySelectorAll(".counter div").forEach(d=>d.style.color=document.getElementById("counterColor").value);
-  // Main image
-  const mainInput=document.getElementById("mainImageInput");
-  if(mainInput.files && mainInput.files[0]){
-    const reader=new FileReader();
-    reader.onload=e=>document.getElementById("mainImage").src=e.target.result;
-    reader.readAsDataURL(mainInput.files[0]);
-  }
-  // Gallery
-  ["galleryInput1","galleryInput2","galleryInput3"].forEach((id,i)=>{
-    const input=document.getElementById(id);
-    if(input.files && input.files[0]){
-      const reader=new FileReader();
-      reader.onload=e=>document.getElementById(`img${i+1}`).src=e.target.result;
-      reader.readAsDataURL(input.files[0]);
-    }
-  });
-  // Carta
-  letterText.textContent=document.getElementById("customLetter").value;
-  letter.style.fontFamily=fontSelect.value;
-  // Mensagem abaixo da imagem
-  loveMessage.textContent=document.getElementById("customMessage").value;
-  // Música
-  const musicInput=document.getElementById("musicInput");
-  if(musicInput.files && musicInput.files[0]){
-    const reader=new FileReader();
-    reader.onload=e=>{
-      const player=document.getElementById("musicPlayer");
-      player.src=e.target.result;
-      player.style.display="block";
-      player.play();
-    }
-    reader.readAsDataURL(musicInput.files[0]);
-  }
-}
-
-// Contador
-function updateCounter(){
-  const start=startDateInput.value?new Date(startDateInput.value):new Date();
-  const now=new Date();
-  let diff=now-start;
-  let months=Math.floor(diff/1000/60/60/24/30);
-  diff-=months*30*24*60*60*1000;
-  let days=Math.floor(diff/1000/60/60/24);
-  diff-=days*24*60*60*1000;
-  let hours=Math.floor(diff/1000/60/60);
-  diff-=hours*60*60*1000;
-  let minutes=Math.floor(diff/1000/60);
-  diff-=minutes*60*1000;
-  let seconds=Math.floor(diff/1000);
-  document.getElementById("months").textContent=months;
-  document.getElementById("days").textContent=days;
-  document.getElementById("hours").textContent=hours;
-  document.getElementById("minutes").textContent=minutes;
-  document.getElementById("seconds").textContent=seconds;
-}
-setInterval(updateCounter,1000);
-
-// Carta
-letter.addEventListener("click",()=>{
-  letter.classList.toggle("open");
+document.getElementById('galeriaInput').addEventListener('change', (e) => {
+    galeriaImgs = [];
+    galeriaDiv.innerHTML = '';
+    const files = Array.from(e.target.files).slice(0,3);
+    files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(ev){
+            galeriaImgs.push(ev.target.result);
+            const img = document.createElement('img');
+            img.src = ev.target.result;
+            galeriaDiv.appendChild(img);
+        }
+        reader.readAsDataURL(file);
+    });
 });
 
-// QR Code
-function createAndSaveQRCode(){
-  // esconder painel
-  document.getElementById("configPanel").classList.add("hidden");
-  const divQR=document.getElementById("qrcode");
-  divQR.innerHTML="";
-  // gerar QR code para o próprio site (convite final)
-  const data=window.location.href;
-  QRCode.toCanvas(document.createElement("canvas"),data,{width:200},function(err,canvas){
-    if(err)console.error(err);
-    divQR.appendChild(canvas);
-    const link=document.createElement("a");
-    link.href=canvas.toDataURL();
-    link.download="convite.png";
-    link.click();
-  });
+document.getElementById('imgPrincipal').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){
+        imgMain.src = ev.target.result;
+        imgMain.style.display='block';
+    }
+    reader.readAsDataURL(file);
+});
+
+document.getElementById('previewBtn').addEventListener('click', () => {
+    const nomes = document.getElementById('nomes').value || 'Seu Nome & Parceiro(a)';
+    const mensagem = document.getElementById('mensagem').value || 'Mensagem de amor...';
+    const dataNamoro = document.getElementById('data_namoro').value;
+    const musica = document.getElementById('musica').value;
+    const corFundo = document.getElementById('cor_fundo').value;
+    previewNomes.textContent = nomes;
+    previewMensagem.textContent = mensagem;
+    previewDiv.style.background = corFundo;
+    if(musica) audioPreview.src = musica;
+    if(dataNamoro){
+        clearInterval(window.countdownInterval);
+        updateCountdown(new Date(dataNamoro));
+        window.countdownInterval = setInterval(()=>updateCountdown(new Date(dataNamoro)),1000);
+    }
+});
+
+function updateCountdown(date){
+    const now = new Date();
+    let diff = Math.abs(date-now)/1000;
+    const dias=Math.floor(diff/86400);
+    diff-=dias*86400;
+    const horas=Math.floor(diff/3600)%24;
+    const minutos=Math.floor(diff/60)%60;
+    const segundos=Math.floor(diff%60);
+    document.getElementById('dias').textContent=`${dias}d`;
+    document.getElementById('horas').textContent=`${horas}h`;
+    document.getElementById('minutos').textContent=`${minutos}m`;
+    document.getElementById('segundos').textContent=`${segundos}s`;
 }
 
+document.getElementById('gerarQr').addEventListener('click', ()=>{
+    const data={
+        nomes: document.getElementById('nomes').value,
+        mensagem: document.getElementById('mensagem').value,
+        data_namoro: document.getElementById('data_namoro').value,
+        musica: document.getElementById('musica').value,
+        cor_fundo: document.getElementById('cor_fundo').value,
+        imgPrincipal: imgMain.src||'',
+        galeria: galeriaImgs
+    };
+    const jsonData = encodeURIComponent(JSON.stringify(data));
+    const conviteURL = `${window.location.origin}/convite.html?data=${jsonData}`;
+    
+    // Abrir convite final em nova aba
+    window.open(conviteURL,'_blank');
+
+    // Gerar e baixar QR Code automaticamente
+    QRCode.toDataURL(conviteURL, {width:300}, function(err,url){
+        if(err) return console.error(err);
+        const a=document.createElement('a');
+        a.href = url;
+        a.download = 'convite_qrcode.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+});
 </script>
-</body>
-</html>
