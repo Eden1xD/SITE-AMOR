@@ -147,7 +147,6 @@ audio{ margin-top:15px; width:100%; outline:none; }
 </style>
 </head>
 <body>
-
 <div id="convite">
 <h1 id="nomes">Seu Nome & Parceiro(a)</h1>
 <img id="imgMain" src="" style="display:none;">
@@ -169,7 +168,7 @@ audio{ margin-top:15px; width:100%; outline:none; }
   </div>
 </div>
 
-<audio id="audio" controls></audio>
+<audio id="audio" controls autoplay></audio>
 <div id="galeria"></div>
 </div>
 
@@ -192,9 +191,12 @@ if(convite){
     const galeriaDiv = document.getElementById('galeria');
     if(convite.galeria && convite.galeria.length){
         convite.galeria.slice(0,3).forEach(src=>{
-            const img=document.createElement('img'); img.src=src; galeriaDiv.appendChild(img);
+            const img=document.createElement('img');
+            img.src=src;
+            galeriaDiv.appendChild(img);
         });
     }
+
     function updateCountdown(){
         const now=new Date();
         const date=new Date(convite.data_namoro);
@@ -214,20 +216,21 @@ if(convite){
     setInterval(updateCountdown,1000);
 }
 
+// Carta animada
 const carta = document.getElementById('carta');
-carta.addEventListener('click', ()=>{
-    carta.classList.toggle('abrir');
-    // cria corações ao abrir carta
-    for(let i=0;i<20;i++){
-        const heart=document.createElement('div');
-        heart.className='coração';
-        heart.style.left=Math.random()*90+'%';
-        heart.style.animationDelay=Math.random()*2+'s';
-        heart.style.width=(10+Math.random()*15)+'px';
-        heart.style.height=heart.style.width;
-        document.body.appendChild(heart);
-    }
-});
+carta.addEventListener('click', ()=>{ carta.classList.toggle('abrir'); });
+
+// Corações animados
+for(let i=0;i<20;i++){
+    const heart=document.createElement('div');
+    heart.className='coração';
+    heart.style.left=Math.random()*90+'%';
+    heart.style.animationDelay=Math.random()*2+'s';
+    heart.style.width=(10+Math.random()*15)+'px';
+    heart.style.height=heart.style.width;
+    document.body.appendChild(heart);
+}
 </script>
 </body>
 </html>
+
