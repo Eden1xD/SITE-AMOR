@@ -21,7 +21,7 @@ button:hover { box-shadow:0 0 15px #ff3fff,0 0 30px #ff3fff,0 0 60px #ff3fff; }
 @keyframes glow{ 0%{ box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; } 50%{ box-shadow:0 0 40px #ff6fff,0 0 60px #ff3fff,0 0 80px #ff6fff; } 100%{ box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; } }
 #previewMensagem { font-size:20px; margin:10px 0; text-shadow:0 0 5px #ff6fff,0 0 10px #ff3fff; }
 #countdown { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; justify-content:center; }
-.count-box { background:#111; border:2px solid #ff6fff; padding:10px 15px; border-radius:10px; box-shadow:0 0 10px #ff6fff,0 0 20px #ff3fff; font-weight:bold; font-size:18px; min-width:60px; text-align:center; }
+.count-box { background:#111; border:2px solid #ff6fff; padding:10px 15px; border-radius:10px; box-shadow:0 0 10px #ff6fff,0 0 20px #ff3fff; font-weight:bold; font-size:18px; min-width:60px; }
 #galeria { display:flex; justify-content:center; gap:10px; margin-top:10px; flex-wrap:wrap; }
 #galeria img { width:80px; height:80px; object-fit:cover; border-radius:10px; border:2px solid #ff6fff; cursor:pointer; transition:transform 0.3s; }
 #galeria img:hover { transform: scale(1.2); border-color:#ff3fff; }
@@ -58,13 +58,13 @@ audio{ margin-top:15px; width:100%; outline:none; }
 <h2 id="previewNomes">Seu Nome & Parceiro(a)</h2>
 <p id="previewMensagem">Mensagem de amor...</p>
 <img id="imgMain" src="" style="display:none;">
-<div id="galeria"></div>
 <div id="countdown">
 <div class="count-box" id="dias">00d</div>
 <div class="count-box" id="horas">00h</div>
 <div class="count-box" id="minutos">00m</div>
 <div class="count-box" id="segundos">00s</div>
 </div>
+<div id="galeria"></div>
 <audio id="audioPreview" controls></audio>
 </div>
 </div>
@@ -151,21 +151,44 @@ document.getElementById('gerarQr').addEventListener('click', ()=>{
     };
     const jsonData = encodeURIComponent(JSON.stringify(data));
     const conviteURL = `${window.location.origin}/convite.html?data=${jsonData}`;
-    
+
     // Abrir convite final em nova aba
     window.open(conviteURL,'_blank');
 
-    // Gerar e baixar QR Code automaticamente
-    QRCode.toDataURL(conviteURL, {width:300}, function(err,url){
-        if(err) return console.error(err);
-        const a=document.createElement('a');
-        a.href = url;
+    // Criar QR Code na tela (modal)
+    const qrContainer = document.createElement('div');
+    qrContainer.style.position = 'fixed';
+    qrContainer.style.top = '50%';
+    qrContainer.style.left = '50%';
+    qrContainer.style.transform = 'translate(-50%, -50%)';
+    qrContainer.style.background = '#111';
+    qrContainer.style.padding = '20px';
+    qrContainer.style.borderRadius = '15px';
+    qrContainer.style.zIndex = 9999;
+    qrContainer.style.textAlign = 'center';
+    qrContainer.innerHTML = `<h3 style="color:#ff6fff;">Escaneie o QR Code:</h3><canvas id="qrCanvas"></canvas><br><button id="baixarQr">Baixar QR Code</button> <button id="fecharQr">Fechar</button>`;
+    document.body.appendChild(qrContainer);
+
+    QRCode.toCanvas(document.getElementById('qrCanvas'), conviteURL, {width:300}, function(err){
+        if(err) console.error(err);
+    });
+
+    document.getElementById('baixarQr').addEventListener('click', ()=>{
+        const canvas = document.getElementById('qrCanvas');
+        const a = document.createElement('a');
+        a.href = canvas.toDataURL('image/png');
         a.download = 'convite_qrcode.png';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
     });
+
+    document.getElementById('fecharQr').addEventListener('click', ()=>{
+        qrContainer.remove();
+    });
 });
 </script>
+
 </body>
 </html>
+
