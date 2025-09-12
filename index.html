@@ -12,7 +12,7 @@ h1 { font-family: 'Pacifico', cursive; font-size:3rem; color:#ff6fff; text-shado
 .box { background: rgba(20,20,20,0.8); border: 2px solid #ff6fff; border-radius:15px; padding:20px; flex:1 1 300px; min-width:280px; box-shadow:0 0 20px #ff6fff; transition:0.3s; }
 .box:hover { box-shadow:0 0 40px #ff6fff; }
 label { margin-top:10px; display:block; font-weight:bold; }
-input,textarea { width:100%; padding:8px; margin-top:5px; border-radius:8px; border:1px solid #ff6fff; background:#111; color:#fff; font-size:16px; }
+input,textarea,select { width:100%; padding:8px; margin-top:5px; border-radius:8px; border:1px solid #ff6fff; background:#111; color:#fff; font-size:16px; }
 input:focus,textarea:focus{ outline:none; border-color:#ff3fff; box-shadow:0 0 10px #ff3fff; }
 button { margin-top:15px; padding:12px 20px; border:none; border-radius:10px; background:#ff6fff; color:#fff; font-size:18px; cursor:pointer; transition:0.3s; box-shadow: 0 0 5px #ff6fff, 0 0 10px #ff6fff, 0 0 20px #ff6fff; }
 button:hover { box-shadow:0 0 15px #ff3fff,0 0 30px #ff3fff,0 0 60px #ff3fff; }
@@ -26,6 +26,7 @@ button:hover { box-shadow:0 0 15px #ff3fff,0 0 30px #ff3fff,0 0 60px #ff3fff; }
 #galeria img { width:80px; height:80px; object-fit:cover; border-radius:10px; border:2px solid #ff6fff; cursor:pointer; transition:transform 0.3s; }
 #galeria img:hover { transform: scale(1.2); border-color:#ff3fff; }
 audio{ margin-top:15px; width:100%; outline:none; }
+#qrcode { margin-top:15px; }
 </style>
 </head>
 <body>
@@ -44,12 +45,13 @@ audio{ margin-top:15px; width:100%; outline:none; }
 <input type="text" id="musica" placeholder="https://link-da-musica.mp3">
 <label>Cor de fundo:</label>
 <input type="color" id="cor_fundo" value="#111111">
-<label>URL da imagem principal:</label>
-<input type="text" id="imgPrincipalURL" placeholder="https://link-da-imagem.jpg">
-<label>URLs da galeria (até 3, separadas por vírgula):</label>
-<input type="text" id="galeriaURLs" placeholder="url1,url2,url3">
+<label>URL da Imagem principal:</label>
+<input type="text" id="imgPrincipal" placeholder="https://...">
+<label>URLs da Galeria (3 imagens, separadas por vírgula):</label>
+<input type="text" id="galeriaInput" placeholder="url1,url2,url3">
 <button id="previewBtn">Atualizar Preview</button>
 <button id="gerarQr">Criar & Baixar QR Code</button>
+<div id="qrcode"></div>
 </div>
 
 <div class="box">
@@ -70,14 +72,17 @@ audio{ margin-top:15px; width:100%; outline:none; }
 </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const previewNomes = document.getElementById('previewNomes');
 const previewMensagem = document.getElementById('previewMensagem');
+const countdownEl = document.getElementById('countdown');
 const previewDiv = document.getElementById('preview');
 const audioPreview = document.getElementById('audioPreview');
 const imgMain = document.getElementById('imgMain');
 const galeriaDiv = document.getElementById('galeria');
+
+let galeriaImgs = [];
 
 document.getElementById('previewBtn').addEventListener('click', () => {
     const nomes = document.getElementById('nomes').value || 'Seu Nome & Parceiro(a)';
@@ -85,22 +90,20 @@ document.getElementById('previewBtn').addEventListener('click', () => {
     const dataNamoro = document.getElementById('data_namoro').value;
     const musica = document.getElementById('musica').value;
     const corFundo = document.getElementById('cor_fundo').value;
-    const imgURL = document.getElementById('imgPrincipalURL').value;
-    const galeriaURLs = document.getElementById('galeriaURLs').value.split(',').slice(0,3);
+    const imgUrl = document.getElementById('imgPrincipal').value;
+    const galeriaUrls = document.getElementById('galeriaInput').value.split(',').slice(0,3);
 
     previewNomes.textContent = nomes;
     previewMensagem.textContent = mensagem;
     previewDiv.style.background = corFundo;
+
     if(musica) audioPreview.src = musica;
-    if(imgURL){ imgMain.src = imgURL; imgMain.style.display='block'; }
+    if(imgUrl){ imgMain.src = imgUrl; imgMain.style.display='block'; }
 
     galeriaDiv.innerHTML='';
-    galeriaURLs.forEach(url=>{
-        if(url.trim()!==''){
-            const img=document.createElement('img');
-            img.src=url.trim();
-            galeriaDiv.appendChild(img);
-        }
+    galeriaImgs = galeriaUrls.filter(u=>u.trim()!=='');
+    galeriaImgs.forEach(url=>{
+        const img=document.createElement('img'); img.src=url; galeriaDiv.appendChild(img);
     });
 
     if(dataNamoro){
@@ -108,22 +111,23 @@ document.getElementById('previewBtn').addEventListener('click', () => {
         updateCountdown(new Date(dataNamoro));
         window.countdownInterval = setInterval(()=>updateCountdown(new Date(dataNamoro)),1000);
     }
-
-    function updateCountdown(date){
-        const now = new Date();
-        let diff = Math.abs(date-now)/1000;
-        const dias=Math.floor(diff/86400);
-        diff-=dias*86400;
-        const horas=Math.floor(diff/3600)%24;
-        const minutos=Math.floor(diff/60)%60;
-        const segundos=Math.floor(diff%60);
-        document.getElementById('dias').textContent=`${dias}d`;
-        document.getElementById('horas').textContent=`${horas}h`;
-        document.getElementById('minutos').textContent=`${minutos}m`;
-        document.getElementById('segundos').textContent=`${segundos}s`;
-    }
 });
 
+function updateCountdown(date){
+    const now = new Date();
+    let diff = Math.abs(date-now)/1000;
+    const dias=Math.floor(diff/86400);
+    diff-=dias*86400;
+    const horas=Math.floor(diff/3600)%24;
+    const minutos=Math.floor(diff/60)%60;
+    const segundos=Math.floor(diff%60);
+    document.getElementById('dias').textContent=`${dias}d`;
+    document.getElementById('horas').textContent=`${horas}h`;
+    document.getElementById('minutos').textContent=`${minutos}m`;
+    document.getElementById('segundos').textContent=`${segundos}s`;
+}
+
+// QR Code confiável
 document.getElementById('gerarQr').addEventListener('click', ()=>{
     const data={
         nomes: document.getElementById('nomes').value,
@@ -131,24 +135,37 @@ document.getElementById('gerarQr').addEventListener('click', ()=>{
         data_namoro: document.getElementById('data_namoro').value,
         musica: document.getElementById('musica').value,
         cor_fundo: document.getElementById('cor_fundo').value,
-        imgPrincipal: document.getElementById('imgPrincipalURL').value,
-        galeria: document.getElementById('galeriaURLs').value.split(',').slice(0,3)
+        imgPrincipal: document.getElementById('imgPrincipal').value,
+        galeria: galeriaImgs
     };
     const jsonData = encodeURIComponent(JSON.stringify(data));
     const conviteURL = `${window.location.origin}/convite.html?data=${jsonData}`;
 
-    // Abrir convite final em nova aba
+    // Abre convite final
     window.open(conviteURL,'_blank');
 
-    // Gerar e baixar QR Code automaticamente
-    QRCode.toDataURL(conviteURL,{width:300},(err,url)=>{
-        if(err) return console.error(err);
-        const a=document.createElement('a');
-        a.href=url;
-        a.download='convite_qrcode.png';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+    // Limpa QR anterior
+    document.getElementById('qrcode').innerHTML='';
+
+    // Gera QR Code confiável
+    const qrcode = new QRCode(document.getElementById('qrcode'), {
+        text: conviteURL,
+        width: 200,
+        height: 200
     });
+
+    // Baixar QR Code em PNG
+    setTimeout(()=>{
+        const img = document.querySelector('#qrcode img') || document.querySelector('#qrcode canvas');
+        if(img){
+            const link = document.createElement('a');
+            link.href = img.src || img.toDataURL();
+            link.download = 'convite_qrcode.png';
+            link.click();
+        }
+    },500);
 });
 </script>
+
+</body>
+</html>
