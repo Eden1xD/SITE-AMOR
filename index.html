@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Convite Ultra 14.1 💖</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins&display=swap');
+
+body { 
+  margin:0; 
+  font-family:'Poppins', sans-serif; 
+  background:#ff9a9e; 
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  text-align:center; 
+  min-height:100vh; 
+  overflow-x:hidden; 
+}
+
+h1 { 
+  font-size:2.5em; 
+  color:#fff; 
+  text-shadow:0 0 15px #ff4da6,0 0 25px #ff99cc; 
+  margin:15px 0; 
+}
+
+.main-image { 
+  width:200px; 
+  height:200px; 
+  border-radius:50%; 
+  object-fit:cover; 
+  border:5px solid #fff; 
+  box-shadow:0 0 30px #ff4da6; 
+  margin:20px auto; 
+  animation:pulse 2s infinite alternate; 
+  position:relative; 
+}
+@keyframes pulse { 
+  from { transform:scale(1); box-shadow:0 0 20px #ff4da6; } 
+  to { transform:scale(1.05); box-shadow:0 0 50px #ff99cc; } 
+}
+
+.love-message { 
+  font-size: 1.3em; 
+  color: #fff; 
+  margin: 15px auto; 
+  text-shadow: 0 0 12px #ff0066, 0 0 20px #ff3399; 
+  animation: glowText 2s infinite alternate; 
+  white-space: pre-wrap; 
+  max-width: 80%; 
+  word-wrap: break-word; 
+}
+@keyframes glowText { from{text-shadow:0 0 8px #ff0066;} to{text-shadow:0 0 25px #ff99cc;} }
+
+.counter-title { 
+  font-family:'Dancing Script', cursive; 
+  font-size:1.2em; 
+  color:#fff; 
+  text-shadow:0 0 6px #ff66aa,0 0 12px #ff99cc; 
+  margin-bottom:10px; 
+}
+
+.counter { 
+  display:flex; 
+  justify-content:center; 
+  gap:15px; 
+  margin:20px 0; 
+}
+.counter div { 
+  background:rgba(255,255,255,0.2); 
+  border:2px solid #fff; 
+  padding:15px; 
+  border-radius:12px; 
+  min-width:70px; 
+  color:#fff; 
+  font-size:1.2em; 
+  font-weight:bold; 
+  box-shadow:0 0 12px rgba(255,255,255,0.5); 
+  transition:transform 0.3s; 
+  position:relative; 
+  overflow:hidden; 
+}
+.counter div:hover { 
+  transform:scale(1.1) rotate(-2deg); 
+}
+.counter div::after { 
+  content:''; 
+  position:absolute; 
+  width:100%; 
+  height:100%; 
+  background:linear-gradient(45deg,#fff0,#fff0,#ff99cc,#fff0); 
+  top:0; left:-100%; 
+  animation:shine 2s infinite; 
+  border-radius:12px; 
+}
+@keyframes shine { from {left:-100%;} to {left:100%;} }
+.label { display:block; font-size:0.7em; font-weight:normal; margin-top:5px; color:#ffccf2; }
+
+.letter { 
+  margin:30px auto; 
+  padding:25px; 
+  width:340px; 
+  background:#fff; 
+  border-radius:15px; 
+  box-shadow:0 0 25px rgba(0,0,0,0.2); 
+  transform:rotate(-1deg); 
+  cursor:pointer; 
+  transition:transform 0.5s ease; 
+  position:relative; 
+}
+.letter.open { 
+  transform:rotate(0deg) scale(1.05); 
+  background:#fff8f8; 
+  box-shadow:0 0 35px #ff4da6; 
+}
+.letter p { 
+  font-size:1.1em; 
+  color:#444; 
+  display:none; 
+  white-space: pre-wrap; 
+}
+.letter.open p { 
+  display:block; 
+  animation:fadeIn 1s forwards; 
+}
+@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+.fireworks { 
+  position:absolute; 
+  width:100%; 
+  height:100%; 
+  top:0; left:0; 
+  pointer-events:none; 
+}
+
+.gallery { 
+  margin:30px auto; 
+  display:flex; 
+  justify-content:center; 
+  gap:20px; 
+  perspective:1000px; 
+}
+.gallery img { 
+  width:100px; 
+  height:100px; 
+  border-radius:12px; 
+  object-fit:cover; 
+  box-shadow:0 0 15px #fff; 
+  transition: transform 0.4s ease; 
+  cursor:pointer; 
+}
+.gallery img:hover { 
+  transform:rotateY(15deg) rotateX(10deg) scale(1.2); 
+}
+
+.config-panel { 
+  margin-top:40px; 
+  background:rgba(255,255,255,0.15); 
+  padding:20px; 
+  border-radius:15px; 
+  width:85%; 
+  max-width:550px; 
+  box-shadow:0 0 20px rgba(255,255,255,0.4); 
+  color:#fff; 
+  text-align:left; 
+  transition: all 0.5s ease; 
+}
+.config-panel h2 { margin-bottom:15px; font-size:1.4em; text-shadow:0 0 12px #ff4da6; text-align:center; }
+.config-panel label { display:block; margin-top:12px; font-weight:bold; }
+.config-panel input, .config-panel select { width:100%; padding:10px; margin:8px 0; border-radius:8px; border:none; font-size:1em; }
+.config-panel button { padding:12px 20px; border:none; border-radius:10px; background:#ff4da6; color:#fff; font-weight:bold; font-size:1em; margin-top:10px; cursor:pointer; transition: background 0.3s, transform 0.3s; width:100%; }
+.config-panel button:hover { background:#ff0066; transform: scale(1.05); }
+
+#qrcode { margin-top:25px; text-align:center; }
+audio { margin-top:15px; display:none; }
+</style>
+</head>
+<body>
+
+<h1>Nosso Convite Ultra 💕</h1>
+
+<img src="https://i.imgur.com/0Zf7uFd.jpg" alt="Imagem principal" class="main-image" id="mainImage">
+
+<div class="love-message" id="loveMessage">Estamos juntos há...</div>
+
+<div class="counter-title">Estamos se amando há</div>
+<div class="counter" id="counter">
+  <div><span id="months">0</span><span class="label">Meses</span></div>
+  <div><span id="days">0</span><span class="label">Dias</span></div>
+  <div><span id="hours">0</span><span class="label">Horas</span></div>
+  <div><span id="minutes">0</span><span class="label">Min</span></div>
+  <div><span id="seconds">0</span><span class="label">Seg</span></div>
+</div>
+
+<div class="letter" id="letter">
+  <strong>Clique para abrir a carta 💌</strong>
+  <p id="letterText">Você é a melhor parte da minha vida 💖</p>
+  <canvas class="fireworks" id="fireworks"></canvas>
+</div>
+
+<div class="gallery" id="gallery">
+  <img src="https://i.imgur.com/2yaf2wb.jpg" id="img1">
+  <img src="https://i.imgur.com/Wf1xR0N.jpg" id="img2">
+  <img src="https://i.imgur.com/b7XG0l9.jpg" id="img3">
+</div>
+
+<audio id="musicPlayer" controls autoplay loop></audio>
+
+<div class="config-panel" id="configPanel">
+  <h2>⚙️ Configurações do Convite</h2>
+  <label>Data de início:</label>
+  <input type="date" id="startDate">
+  <label>Mensagem da carta (máx 200 chars):</label>
+  <input type="text" id="customLetter" maxlength="200" placeholder="Digite sua mensagem...">
+  <label>Mensagem abaixo da imagem (máx 150 chars):</label>
+  <input type="text" id="customMessage" maxlength="150" placeholder="Digite sua frase romântica...">
+  <label>Fonte da carta:</label>
+  <select id="fontSelect">
+    <option value="'Poppins', sans-serif">Padrão</option>
+    <option value="'Dancing Script', cursive">Romântica</option>
+    <option value="'Courier New', monospace">Digitada</option>
+  </select>
+  <label>Cor do tema:</label>
+  <input type="color" id="themeColor" value="#ff9a9e">
+  <label>Cor do contador:</label>
+  <input type="color" id="counterColor" value="#ffffff">
+  <label>Imagem principal:</label>
+  <input type="file" id="mainImageInput" accept="image/*">
+  <label>Imagens da galeria:</label>
+  <input type="file" id="galleryInput1" accept="image/*">
+  <input type="file" id="galleryInput2" accept="image/*">
+  <input type="file" id="galleryInput3" accept="image/*">
+  <label>Música de fundo (opcional):</label>
+  <input type="file" id="musicInput" accept="audio/*">
+  <button onclick="applyConfig()">Aplicar Configurações</button>
+  <button onclick="createAndSaveQRCode()">Criar e Salvar QR Code 💖</button>
+  <div id="qrcode"></div>
+</div>
+
+<script>
+// Contador
+let startDate = new Date("2023-01-01");
+function updateCounter(){
+  let now = new Date();
+  let diff = now - startDate;
+  let months = now.getMonth() - startDate.getMonth() + (12*(now.getFullYear()-startDate.getFullYear()));
+  if(now.getDate() < startDate.getDate()) months--;
+  let days = Math.floor(diff / (1000*60*60*24)) % 30;
+  let hours = Math.floor((diff / (1000*60*60)) % 24);
+  let minutes = Math.floor((diff / (1000*60)) % 60);
+  let seconds = Math.floor((diff / 1000) % 60);
+  document.getElementById("months").textContent=months;
+  document.getElementById("days").textContent=days;
+  document.getElementById("hours").textContent=hours;
+  document.getElementById("minutes").textContent=minutes;
+  document.getElementById("seconds").textContent=seconds;
+}
+setInterval(updateCounter, 1000);
+
+// Carta
+const letter = document.getElementById("letter");
+letter.addEventListener("click",()=>{
+  letter.classList.toggle("open");
+  if(letter.classList.contains("open")){
+    launchFireworks();
+  }
+});
+
+// Fogos simples
+function launchFireworks(){
+  const canvas = document.getElementById("fireworks");
+  const ctx = canvas.getContext("2d");
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(let i=0;i<50;i++){
+    ctx.beginPath();
+    ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height/2, Math.random()*4+2,0,Math.PI*2);
+    ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`;
+    ctx.fill();
+  }
+}
+
+// Aplicar Configurações
+function applyConfig(){
+  // Data
+  let inputDate = document.getElementById("startDate").value;
+  if(inputDate) startDate = new Date(inputDate);
+
+  // Mensagens
+  let msg = document.getElementById("customMessage").value;
+  if(msg) document.getElementById("loveMessage").textContent=msg;
+
+  let letterMsg = document.getElementById("customLetter").value;
+  if(letterMsg) document.getElementById("letterText").textContent=letterMsg;
+
+  // Fonte
+  let font = document.getElementById("fontSelect").value;
+  document.getElementById("letterText").style.fontFamily = font;
+
+  // Tema
+  let color = document.getElementById("themeColor").value;
+  document.body.style.background=color;
+
+  // Contador
+  let counterColor = document.getElementById("counterColor").value;
+  document.querySelectorAll(".counter div").forEach(d=>d.style.color=counterColor);
+
+  // Imagem principal
+  const mainImgFile = document.getElementById("mainImageInput").files[0];
+  if(mainImgFile){
+    const reader = new FileReader();
+    reader.onload = e=> document.getElementById("mainImage").src=e.target.result;
+    reader.readAsDataURL(mainImgFile);
+  }
+
+  // Galeria
+  for(let i=1;i<=3;i++){
+    const file = document.getElementById("galleryInput"+i).files[0];
+    if(file){
+      const reader = new FileReader();
+      reader.onload = e=> document.getElementById("img"+i).src=e.target.result;
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Música
+  const musicFile = document.getElementById("musicInput").files[0];
+  if(musicFile){
+    const audio = document.getElementById("musicPlayer");
+    audio.src = URL.createObjectURL(musicFile);
+    audio.style.display="block";
+    audio.play();
+  }
+}
+
+// QR Code
+function createAndSaveQRCode(){
+  const url = window.location.href;
+  QRCode.toDataURL(url, {width:300}, function(err,data){
+    if(err){alert(err); return;}
+    const a = document.createElement("a");
+    a.href=data;
+    a.download="convite_qr_💖.png";
+    a.click();
+  });
+  document.getElementById("configPanel").style.display="none";
+}
+</script>
+
+</body>
+</html>
