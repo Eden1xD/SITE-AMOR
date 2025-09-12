@@ -166,4 +166,32 @@ document.getElementById('gerarQr').addEventListener('click', ()=>{
         document.body.removeChild(a);
     });
 });
+
+document.getElementById('gerarQr').addEventListener('click', ()=>{
+    const data={
+        nomes: document.getElementById('nomes').value,
+        mensagem: document.getElementById('mensagem').value,
+        data_namoro: document.getElementById('data_namoro').value,
+        musica: document.getElementById('musica').value,
+        cor_fundo: document.getElementById('cor_fundo').value,
+        imgPrincipal: imgMain.src||'',
+        galeria: galeriaImgs
+    };
+    const jsonData = encodeURIComponent(JSON.stringify(data));
+    const conviteURL = `${window.location.origin}/convite.html?data=${jsonData}`;
+    
+    // Abrir convite final em nova aba automaticamente
+    window.open(conviteURL,'_blank');
+
+    // Gerar e baixar QR Code automaticamente
+    QRCode.toDataURL(conviteURL, {width:300}, function(err,url){
+        if(err) return console.error(err);
+        const a=document.createElement('a');
+        a.href = url;
+        a.download = 'convite_qrcode.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+});
 </script>
