@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap');
+
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Poppins', sans-serif; background:linear-gradient(135deg,#ff9eb5,#ffd1a9); color:#fff; min-height:100vh; display:flex; justify-content:center; align-items:center; flex-direction:column; overflow-x:hidden;}
+
+/* Loading */
+#loadingScreen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#ff9eb5,#ffd1a9);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:1000;}
+#loadingScreen h1{font-family:'Great Vibes',cursive;font-size:2.5rem;text-shadow:0 0 15px rgba(255,255,255,0.8);}
+.hearts::before,.hearts::after{content:"💖💘💞💓";font-size:2rem;position:absolute;animation:flutuar 10s linear infinite;opacity:0.6;}
+@keyframes flutuar{0%{transform:translateY(100vh) rotate(0deg);}100%{transform:translateY(-100vh) rotate(360deg);}}
+
+/* Login */
+.login-screen, .admin-panel{display:none;flex-direction:column;align-items:center;background:rgba(255,255,255,0.15);padding:30px;border-radius:15px;backdrop-filter:blur(10px);box-shadow:0 0 20px rgba(255,255,255,0.2);width:90%;max-width:400px;}
+.login-screen h1,.admin-panel h1{font-family:'Great Vibes',cursive;font-size:2rem;margin-bottom:15px;}
+.login-screen input,.admin-panel input,.admin-panel textarea{width:100%;padding:10px;border-radius:10px;border:none;margin-bottom:10px;}
+button{padding:10px 15px;border:none;border-radius:10px;background:#ff5f8f;color:#fff;font-weight:bold;cursor:pointer;transition:0.3s;}
+button:hover{background:#ff3f7a;transform:scale(1.05);}
+
+/* Site */
+.site{display:none;flex-direction:column;align-items:center;width:100%;}
+header{text-align:center;padding:30px 10px;}
+header h1{font-family:'Great Vibes',cursive;font-size:3rem;text-shadow:0 0 15px rgba(255,255,255,0.7);}
+header p{font-size:1.2rem;opacity:0.9;}
+.contador{font-size:1.2rem;margin-top:10px;}
+
+/* Menu */
+.menu{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px 0;}
+.menu-btn{background:#fff;color:#ff5f8f;font-weight:600;border-radius:10px;padding:10px 15px;cursor:pointer;transition:0.3s;}
+.menu-btn:hover{background:#ff5f8f;color:#fff;transform:scale(1.05);}
+
+/* Tabs */
+.tab{display:none;text-align:center;width:90%;max-width:700px;}
+.tab.active{display:block;}
+
+/* Memória */
+.memoria-grid{display:grid;grid-template-columns:repeat(4,80px);gap:10px;justify-content:center;margin-top:20px;}
+.carta{width:80px;height:80px;border-radius:10px;background:#fff;cursor:pointer;overflow:hidden;transition:transform 0.4s;}
+.carta img{width:100%;height:100%;object-fit:cover;display:none;border-radius:10px;}
+.carta.virada img{display:block;}
+
+/* Galeria */
+.galeria{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+.galeria img{width:120px;height:120px;border-radius:10px;object-fit:cover;cursor:pointer;transition:0.3s;}
+.galeria img:hover{transform:scale(1.1);}
+
+/* Cartas */
+#cartasSalvas{margin-top:20px;display:flex;flex-direction:column;gap:10px;}
+.cartaItem{background:rgba(255,255,255,0.15);padding:15px;border-radius:10px;backdrop-filter:blur(5px);}

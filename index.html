@@ -1,166 +1,109 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Convite de Namoro Neon 💖</title>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<style>
-body { font-family: 'Arial', sans-serif; margin:0; padding:0; display:flex; flex-direction:column; align-items:center; min-height:100vh; background:#111; color:#fff; overflow-x:hidden; }
-h1 { font-family: 'Pacifico', cursive; font-size:3rem; color:#ff6fff; text-shadow:0 0 5px #ff6fff,0 0 10px #ff6fff,0 0 20px #ff6fff; margin:20px 0; }
-.container { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; width:90%; max-width:1200px; }
-.box { background: rgba(20,20,20,0.8); border: 2px solid #ff6fff; border-radius:15px; padding:20px; flex:1 1 300px; min-width:280px; box-shadow:0 0 20px #ff6fff; transition:0.3s; }
-.box:hover { box-shadow:0 0 40px #ff6fff; }
-label { margin-top:10px; display:block; font-weight:bold; }
-input,textarea,select { width:100%; padding:8px; margin-top:5px; border-radius:8px; border:1px solid #ff6fff; background:#111; color:#fff; font-size:16px; }
-input:focus,textarea:focus{ outline:none; border-color:#ff3fff; box-shadow:0 0 10px #ff3fff; }
-button { margin-top:15px; padding:12px 20px; border:none; border-radius:10px; background:#ff6fff; color:#fff; font-size:18px; cursor:pointer; transition:0.3s; box-shadow: 0 0 5px #ff6fff, 0 0 10px #ff6fff, 0 0 20px #ff6fff; }
-button:hover { box-shadow:0 0 15px #ff3fff,0 0 30px #ff3fff,0 0 60px #ff3fff; }
-#preview { position:relative; width:100%; min-height:500px; border-radius:15px; overflow:hidden; text-align:center; background:#111; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:15px; box-shadow: 0 0 20px #ff6fff inset; }
-#imgMain { width:120px; height:120px; border-radius:50%; object-fit:cover; margin:10px 0; border:5px solid #ff6fff; box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; animation: glow 2s infinite alternate; }
-@keyframes glow{ 0%{ box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; } 50%{ box-shadow:0 0 40px #ff6fff,0 0 60px #ff3fff,0 0 80px #ff6fff; } 100%{ box-shadow:0 0 20px #ff6fff,0 0 40px #ff3fff,0 0 60px #ff6fff; } }
-#previewMensagem { font-size:20px; margin:10px 0; text-shadow:0 0 5px #ff6fff,0 0 10px #ff3fff; }
-#tempoAmor { font-size:16px; color:#ff3fff; margin:10px 0; text-shadow:0 0 5px #ff6fff,0 0 10px #ff3fff; }
-#countdown { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; justify-content:center; }
-.count-box { background:#111; border:2px solid #ff6fff; padding:10px 15px; border-radius:10px; box-shadow:0 0 10px #ff6fff,0 0 20px #ff3fff; font-weight:bold; font-size:18px; min-width:60px; }
-#galeria { display:flex; justify-content:center; gap:10px; margin-top:10px; flex-wrap:wrap; }
-#galeria img { width:80px; height:80px; object-fit:cover; border-radius:10px; border:2px solid #ff6fff; cursor:pointer; transition:transform 0.3s; }
-#galeria img:hover { transform: scale(1.2); border-color:#ff3fff; }
-audio{ margin-top:15px; width:100%; outline:none; }
-#qrcode{margin-top:15px;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nosso Amor 💘</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
+  <!-- Loading -->
+  <div id="loadingScreen">
+    <h1>Carregando nosso amor...</h1>
+    <div class="hearts"></div>
+  </div>
 
-<h1>Convite Neon 💖</h1>
-<div class="container">
-<div class="box">
-<h2>Configuração do Convite</h2>
-<label>Nome do casal:</label>
-<input type="text" id="nomes" placeholder="Ex: João & Maria">
-<label>Mensagem:</label>
-<textarea id="mensagem" rows="4" placeholder="Mensagem de amor..."></textarea>
-<label>Data do namoro:</label>
-<input type="datetime-local" id="data_namoro">
-<label>Link da música (MP3/URL):</label>
-<input type="text" id="musica" placeholder="https://link-da-musica.mp3">
-<label>Cor de fundo:</label>
-<input type="color" id="cor_fundo" value="#111111">
-<label>URL da imagem principal:</label>
-<input type="text" id="imgPrincipal" placeholder="https://...">
-<label>URLs da galeria (3 imagens, separados por vírgula):</label>
-<input type="text" id="galeriaInput" placeholder="https://img1.jpg,https://img2.jpg,https://img3.jpg">
-<button id="previewBtn">Atualizar Preview</button>
-<button id="gerarQr">Criar & Baixar QR Code PNG</button>
-<div id="qrcode"></div>
-</div>
+  <!-- Login -->
+  <div class="login-screen" id="loginScreen">
+    <h1>Login 💘</h1>
+    <input type="text" id="loginNome" placeholder="Nome">
+    <input type="password" id="loginSenha" placeholder="Senha">
+    <button id="btnLogin">Entrar 💖</button>
+  </div>
 
-<div class="box">
-<h2>Preview</h2>
-<div id="preview">
-<h2 id="previewNomes">Seu Nome & Parceiro(a)</h2>
-<p id="previewMensagem">Mensagem de amor...</p>
-<img id="imgMain" src="" style="display:none;">
-<div id="tempoAmor">Se amando há 0 dias</div>
-<div id="countdown">
-<div class="count-box" id="dias">00d</div>
-<div class="count-box" id="horas">00h</div>
-<div class="count-box" id="minutos">00m</div>
-<div class="count-box" id="segundos">00s</div>
-</div>
-<div id="galeria"></div>
-<audio id="audioPreview" controls></audio>
-</div>
-</div>
-</div>
+  <!-- Admin Panel -->
+  <div class="admin-panel" id="adminPanel">
+    <h1>Painel Admin 💞</h1>
+    <label>Título do Site:</label>
+    <input type="text" id="tituloInput">
+    <label>Descrição:</label>
+    <input type="text" id="descricaoInput">
+    <label>Cor Principal:</label>
+    <input type="color" id="corInput" value="#ff5f8f">
+    <label>Data de Início:</label>
+    <input type="date" id="dataInicio">
+    <button id="salvarConfigAdmin">Salvar Configurações 💖</button>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-<script>
-const previewNomes = document.getElementById('previewNomes');
-const previewMensagem = document.getElementById('previewMensagem');
-const previewDiv = document.getElementById('preview');
-const audioPreview = document.getElementById('audioPreview');
-const imgMain = document.getElementById('imgMain');
-const galeriaDiv = document.getElementById('galeria');
-let galeriaImgs = [];
+    <hr>
+    <h2>Galeria 💕</h2>
+    <input type="file" id="addFotoAdmin" accept="image/*" multiple>
+    <button id="salvarFotosAdmin">Salvar Fotos 📸</button>
 
-document.getElementById('previewBtn').addEventListener('click', () => {
-    const nomes = document.getElementById('nomes').value || 'Seu Nome & Parceiro(a)';
-    const mensagem = document.getElementById('mensagem').value || 'Mensagem de amor...';
-    const dataNamoro = document.getElementById('data_namoro').value;
-    const musica = document.getElementById('musica').value;
-    const corFundo = document.getElementById('cor_fundo').value;
-    const imgUrl = document.getElementById('imgPrincipal').value;
-    const galeriaUrls = document.getElementById('galeriaInput').value.split(',').slice(0,3);
+    <hr>
+    <h2>Cartas 💌</h2>
+    <textarea id="addCartaInput" placeholder="Escreva algo do coração..."></textarea>
+    <button id="salvarCartaAdmin">Salvar Carta 💖</button>
 
-    previewNomes.textContent = nomes;
-    previewMensagem.textContent = mensagem;
-    previewDiv.style.background = corFundo;
-    if(musica) audioPreview.src = musica;
-    if(imgUrl){ imgMain.src = imgUrl; imgMain.style.display='block'; }
-    galeriaImgs = galeriaUrls;
-    galeriaDiv.innerHTML='';
-    galeriaImgs.forEach(url=>{
-        const img = document.createElement('img'); img.src=url;
-        galeriaDiv.appendChild(img);
-    });
+    <hr>
+    <h2>Login Visitante 👤</h2>
+    <input type="text" id="visitanteNome" placeholder="Nome visitante">
+    <input type="password" id="visitanteSenha" placeholder="Senha visitante">
+    <button id="definirVisitante">Definir Login Visitante 💘</button>
 
-    if(dataNamoro){
-        clearInterval(window.countdownInterval);
-        updateCountdown(new Date(dataNamoro));
-        window.countdownInterval = setInterval(()=>updateCountdown(new Date(dataNamoro)),1000);
-    }
-});
+    <hr>
+    <h2>QR Code & PDF</h2>
+    <div id="qrcode"></div>
+    <button id="gerarQRAdmin">Gerar QR Code 💞</button>
+    <button id="exportPDFAdmin">Exportar PDF 💌</button>
+  </div>
 
-function updateCountdown(date){
-    const now = new Date();
-    let diff = Math.abs(date-now)/1000;
-    const dias=Math.floor(diff/86400); diff-=dias*86400;
-    const horas=Math.floor(diff/3600)%24;
-    const minutos=Math.floor(diff/60)%60;
-    const segundos=Math.floor(diff%60);
-    document.getElementById('dias').textContent=`${dias}d`;
-    document.getElementById('horas').textContent=`${horas}h`;
-    document.getElementById('minutos').textContent=`${minutos}m`;
-    document.getElementById('segundos').textContent=`${segundos}s`;
-    document.getElementById('tempoAmor').textContent=`Se amando há ${dias} dias`;
-}
+  <!-- Site Visitante -->
+  <div class="site" id="site">
+    <header>
+      <h1 id="tituloSite">Nosso Amor 💘</h1>
+      <p id="descricaoSite">Cada segundo ao seu lado é um pedaço de eternidade 💖</p>
+      <div class="contador" id="contador"></div>
+    </header>
 
-document.getElementById('gerarQr').addEventListener('click', async ()=>{
-    const data={
-        nomes: document.getElementById('nomes').value,
-        mensagem: document.getElementById('mensagem').value,
-        data_namoro: document.getElementById('data_namoro').value,
-        musica: document.getElementById('musica').value,
-        cor_fundo: document.getElementById('cor_fundo').value,
-        imgPrincipal: document.getElementById('imgPrincipal').value,
-        galeria: galeriaImgs
-    };
-    const jsonData = encodeURIComponent(JSON.stringify(data));
-    const conviteURL = `${window.location.origin}/convite.html?data=${jsonData}`;
+    <nav class="menu">
+      <button class="menu-btn" data-tab="memoria">🧩 Jogo da Memória</button>
+      <button class="menu-btn" data-tab="momentos">🖼️ Nossos Momentos</button>
+      <button class="menu-btn" data-tab="cartas">💌 Cartas</button>
+      <button class="menu-btn" data-tab="musica">🎵 Música</button>
+      <button class="menu-btn" data-tab="qr">📱 QR Code</button>
+    </nav>
 
-    // Abrir convite final em nova aba
-    window.open(conviteURL,'_blank');
+    <!-- Abas -->
+    <section id="memoria" class="tab active">
+      <h2>Jogo da Memória do Amor 💕</h2>
+      <div class="memoria-grid" id="memoriaGrid"></div>
+    </section>
 
-    // Criar QR Code em canvas grande e legível
-    const canvas = document.createElement('canvas');
-    await QRCode.toCanvas(canvas, conviteURL, {
-        width: 500,
-        margin: 1,
-        color: { dark: "#000000", light: "#ffffff" },
-        errorCorrectionLevel: 'H'
-    });
+    <section id="momentos" class="tab">
+      <h2>Nossos Momentos 🥰</h2>
+      <div class="galeria" id="galeria"></div>
+    </section>
 
-    // Baixar QR Code como PNG automaticamente
-    canvas.toBlob(blob => {
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = "convite_qrcode.png";
-        link.click();
-    }, "image/png");
-});
-</script>
+    <section id="cartas" class="tab">
+      <h2>Cartas de Amor 💌</h2>
+      <div id="cartasSalvas"></div>
+    </section>
 
-<p style="margin-top:20px;color:#777;">© 2025 mateussxl7</p>
+    <section id="musica" class="tab">
+      <h2>Trilha Sonora do Amor 🎶</h2>
+      <audio controls loop id="playerMusica">
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+      </audio>
+    </section>
+
+    <section id="qr" class="tab">
+      <h2>Compartilhe Nosso Amor 💘</h2>
+      <div id="qrcode"></div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
