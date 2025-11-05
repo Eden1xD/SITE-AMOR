@@ -1,9 +1,10 @@
-// === SELETORES ===
+// === SELETORES PRINCIPAIS ===
 const loadingScreen = document.getElementById("loadingScreen");
 const loginScreen = document.getElementById("loginScreen");
 const adminPanel = document.getElementById("adminPanel");
 const site = document.getElementById("site");
 
+// --- Inputs Admin ---
 const tituloInput = document.getElementById("tituloInput");
 const descricaoInput = document.getElementById("descricaoInput");
 const corInput = document.getElementById("corInput");
@@ -16,22 +17,25 @@ const definirVisitante = document.getElementById("definirVisitante");
 const gerarQRAdmin = document.getElementById("gerarQRAdmin");
 const exportPDFAdmin = document.getElementById("exportPDFAdmin");
 
+// --- Login ---
 const loginNome = document.getElementById("loginNome");
 const loginSenha = document.getElementById("loginSenha");
 const btnLogin = document.getElementById("btnLogin");
 
+// --- Visitante ---
 const tituloSite = document.getElementById("tituloSite");
 const descricaoSite = document.getElementById("descricaoSite");
 const contador = document.getElementById("contador");
 const memoriaGrid = document.getElementById("memoriaGrid");
 const galeria = document.getElementById("galeria");
 const cartasSalvas = document.getElementById("cartasSalvas");
+const qrcodeDiv = document.getElementById("qrcode");
 
+// --- Abas ---
 const tabs = document.querySelectorAll(".tab");
 const menuBtns = document.querySelectorAll(".menu-btn");
-const qrcodeDivs = document.querySelectorAll("#qrcode");
 
-// === VARIÁVEIS ===
+// --- VARIÁVEIS ---
 let fotosMemoria = [];
 let cartasData = [];
 let primeiraCarta = null;
@@ -42,8 +46,8 @@ let visitante = JSON.parse(localStorage.getItem("visitante")) || {nome:"", senha
 // === LOADING ===
 window.addEventListener("load", ()=>{
     setTimeout(()=>{
-        loadingScreen.style.display = "none";
-        loginScreen.style.display = "block";
+        loadingScreen.style.display="none";
+        loginScreen.style.display="block";
     },1000);
 });
 
@@ -52,16 +56,16 @@ btnLogin.addEventListener("click", ()=>{
     const nome = loginNome.value.trim();
     const senha = loginSenha.value.trim();
 
-    if(nome === "mateussxl7" && senha === "887766"){
-        loginScreen.style.display = "none";
-        adminPanel.style.display = "block";
+    if(nome==="mateussxl7" && senha==="887766"){
+        loginScreen.style.display="none";
+        adminPanel.style.display="block";
         carregarAdmin();
         return;
     }
 
-    if(nome === visitante.nome && senha === visitante.senha){
-        loginScreen.style.display = "none";
-        site.style.display = "flex";
+    if(nome===visitante.nome && senha===visitante.senha){
+        loginScreen.style.display="none";
+        site.style.display="flex";
         carregarSite();
         return;
     }
@@ -79,25 +83,22 @@ function carregarAdmin(){
 
     fotosMemoria = JSON.parse(localStorage.getItem("fotosAmor")) || [];
     cartasData = JSON.parse(localStorage.getItem("cartasAmor")) || [];
-
-    mostrarGaleriaAdmin();
-    mostrarCartasAdmin();
+    mostrarGaleria();
+    mostrarCartas();
 }
 
 // === CARREGAR SITE VISITANTE ===
 function carregarSite(){
     const config = JSON.parse(localStorage.getItem("configAmor")) || {};
     tituloSite.textContent = config.titulo || "Nosso Amor 💘";
-    descricaoSite.textContent = config.descricao || "Cada segundo ao seu lado é um pedaço de eternidade 💖";
+    descricaoSite.textContent = config.descricao || "Cada segundo ao seu lado é eterno 💖";
     document.body.style.background = `linear-gradient(135deg, ${config.cor || "#ff9eb5"}, #ffd1a9)`;
 
     fotosMemoria = JSON.parse(localStorage.getItem("fotosAmor")) || [];
     cartasData = JSON.parse(localStorage.getItem("cartasAmor")) || [];
-
-    mostrarGaleriaVisitante();
-    mostrarCartasVisitante();
+    mostrarGaleria();
+    mostrarCartas();
     iniciarJogo();
-
     if(config.data) contadorTempo(config.data);
 }
 
@@ -105,12 +106,12 @@ function carregarSite(){
 menuBtns.forEach(btn=>{
     btn.addEventListener("click", ()=>{
         const alvo = btn.getAttribute("data-tab");
-        tabs.forEach(tab=>tab.classList.remove("active"));
+        tabs.forEach(tab => tab.classList.remove("active"));
         document.getElementById(alvo).classList.add("active");
     });
 });
 
-// === CONFIGURAÇÕES ADMIN ===
+// === SALVAR CONFIG ADMIN ===
 document.getElementById("salvarConfigAdmin").addEventListener("click", ()=>{
     const config = {
         titulo: tituloInput.value,
@@ -129,7 +130,7 @@ addFotoAdmin.addEventListener("change", e=>{
         const reader = new FileReader();
         reader.onload = evt=>{
             fotosMemoria.push(evt.target.result);
-            mostrarGaleriaAdmin();
+            mostrarGaleria();
         };
         reader.readAsDataURL(file);
     }
@@ -137,25 +138,32 @@ addFotoAdmin.addEventListener("change", e=>{
 
 salvarFotosAdmin.addEventListener("click", ()=>{
     localStorage.setItem("fotosAmor", JSON.stringify(fotosMemoria));
-    alert("Fotos salvas 💞");
+    alert("Fotos salvas com sucesso 💞");
 });
 
-function mostrarGaleriaAdmin(){
-    const container = document.createElement("div");
-    container.id = "galeriaAdmin";
-    container.innerHTML = "";
-    fotosMemoria.forEach(src=>{
-        const img = document.createElement("img");
-        img.src = src;
-        img.style.width="100px";
-        img.style.margin="5px";
-        container.appendChild(img);
-    });
-    if(!document.getElementById("galeriaAdmin")) adminPanel.appendChild(container);
-}
+// === CARTAS ADMIN ===
+salvarCartaAdmin.addEventListener("click", ()=>{
+    const texto = addCartaInput.value.trim();
+    if(!texto) return alert("Escreva algo 💌");
+    cartasData.push({texto, data: new Date().toLocaleDateString("pt-BR")});
+    localStorage.setItem("cartasAmor", JSON.stringify(cartasData));
+    mostrarCartas();
+    addCartaInput.value="";
+});
 
-function mostrarGaleriaVisitante(){
-    galeria.innerHTML = "";
+// === DEFINIR LOGIN VISITANTE ===
+definirVisitante.addEventListener("click", ()=>{
+    const nome = document.getElementById("visitanteNome").value.trim();
+    const senha = document.getElementById("visitanteSenha").value.trim();
+    if(!nome || !senha) return alert("Preencha ambos os campos");
+    visitante = {nome, senha};
+    localStorage.setItem("visitante", JSON.stringify(visitante));
+    alert("Login visitante definido 💖");
+});
+
+// === MOSTRAR GALERIA ===
+function mostrarGaleria(){
+    galeria.innerHTML="";
     fotosMemoria.forEach(src=>{
         const img = document.createElement("img");
         img.src = src;
@@ -163,66 +171,33 @@ function mostrarGaleriaVisitante(){
     });
 }
 
-// === CARTAS ADMIN ===
-salvarCartaAdmin.addEventListener("click", ()=>{
-    const texto = addCartaInput.value.trim();
-    if(!texto) return alert("Escreva algo 💌");
-    cartasData.push({texto, data:new Date().toLocaleDateString("pt-BR")});
-    localStorage.setItem("cartasAmor", JSON.stringify(cartasData));
-    mostrarCartasAdmin();
-    addCartaInput.value = "";
-});
-
-function mostrarCartasAdmin(){
-    const container = document.getElementById("cartasAdmin") || document.createElement("div");
-    container.id="cartasAdmin";
-    container.innerHTML="";
+// === MOSTRAR CARTAS ===
+function mostrarCartas(){
+    cartasSalvas.innerHTML="";
     cartasData.forEach(carta=>{
         const div = document.createElement("div");
         div.classList.add("cartaItem");
-        div.innerHTML=`<p>${carta.texto}</p><small>💘 ${carta.data}</small>`;
-        container.appendChild(div);
-    });
-    if(!document.getElementById("cartasAdmin")) adminPanel.appendChild(container);
-}
-
-function mostrarCartasVisitante(){
-    cartasSalvas.innerHTML="";
-    cartasData.forEach(carta=>{
-        const div=document.createElement("div");
-        div.classList.add("cartaItem");
-        div.innerHTML=`<p>${carta.texto}</p><small>💘 ${carta.data}</small>`;
+        div.innerHTML = `<p>${carta.texto}</p><small>💘 ${carta.data}</small>`;
         cartasSalvas.appendChild(div);
     });
 }
 
-// === LOGIN VISITANTE ===
-definirVisitante.addEventListener("click", ()=>{
-    const nome = document.getElementById("visitanteNome").value.trim();
-    const senha = document.getElementById("visitanteSenha").value.trim();
-    if(!nome||!senha) return alert("Preencha ambos os campos");
-    visitante = {nome, senha};
-    localStorage.setItem("visitante", JSON.stringify(visitante));
-    alert("Login visitante definido 💖");
-});
-
 // === JOGO DA MEMÓRIA ===
 function iniciarJogo(){
     memoriaGrid.innerHTML="";
-    if(fotosMemoria.length<3){
-        memoriaGrid.innerHTML="<p>Adicione 3 fotos no admin para jogar 💕</p>";
+    if(fotosMemoria.length<2){
+        memoriaGrid.innerHTML="<p>Adicione pelo menos 2 fotos 💕</p>";
         return;
     }
 
-    const fotosJogo = fotosMemoria.slice(0,3);
-    let imagensDuplicadas = [...fotosJogo, ...fotosJogo];
-    imagensDuplicadas.sort(()=>Math.random()-0.5);
+    let imagensDuplicadas = [...fotosMemoria,...fotosMemoria];
+    imagensDuplicadas = imagensDuplicadas.sort(()=>Math.random()-0.5);
 
     imagensDuplicadas.forEach(src=>{
         const carta = document.createElement("div");
         carta.classList.add("carta");
         const img = document.createElement("img");
-        img.src = src;
+        img.src=src;
         carta.appendChild(img);
         carta.addEventListener("click", ()=>virarCarta(carta));
         memoriaGrid.appendChild(carta);
@@ -238,7 +213,7 @@ function virarCarta(carta){
         segundaCarta=carta;
         bloqueado=true;
 
-        if(primeiraCarta.querySelector("img").src===segundaCarta.querySelector("img").src){
+        if(primeiraCarta.querySelector("img").src === segundaCarta.querySelector("img").src){
             primeiraCarta=null;
             segundaCarta=null;
             bloqueado=false;
@@ -256,37 +231,40 @@ function virarCarta(carta){
 
 // === CONTADOR ===
 function contadorTempo(dataInicio){
-    function atualizar(){
-        const inicio=new Date(dataInicio);
-        const agora=new Date();
-        const diff=agora-inicio;
-        const dias=Math.floor(diff/(1000*60*60*24));
-        const horas=Math.floor((diff/(1000*60*60))%24);
-        const minutos=Math.floor((diff/(1000*60))%60);
-        contador.textContent=`${dias} dias, ${horas}h e ${minutos}min juntos 💕`;
+    function atualizarContador(){
+        const inicio = new Date(dataInicio);
+        const agora = new Date();
+        const diff = agora - inicio;
+        const dias = Math.floor(diff/(1000*60*60*24));
+        const horas = Math.floor((diff/(1000*60*60))%24);
+        const minutos = Math.floor((diff/(1000*60))%60);
+        contador.textContent = `${dias} dias, ${horas}h e ${minutos}min juntos 💕`;
     }
-    atualizar();
-    setInterval(atualizar,60000);
+    atualizarContador();
+    setInterval(atualizarContador,60000);
 }
 
-// === QR CODE ===
+// === QR CODE ADMIN ===
 gerarQRAdmin.addEventListener("click", ()=>{
-    qrcodeDivs.forEach(div=>div.innerHTML="");
-    const url=window.location.href.split("?")[0]+"?view=interativa";
-    qrcodeDivs.forEach(div=>{
-        new QRCode(div,{text:url,width:200,height:200,colorDark:"#ff5f8f",colorLight:"#fff"});
+    qrcodeDiv.innerHTML="";
+    const url = window.location.href.split("?")[0];
+    new QRCode(qrcodeDiv,{
+        text: url,
+        width:200,
+        height:200,
+        colorDark:"#ff5f8f",
+        colorLight:"#fff"
     });
-    alert("QR Code gerado 💖");
+    alert("QR Code gerado! 💕");
 });
 
-// === PDF ===
+// === EXPORTAR PDF ADMIN ===
 exportPDFAdmin.addEventListener("click", ()=>{
-    const doc = new jspdf.jsPDF();
-    doc.setFontSize(16);
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(22);
     doc.text(tituloInput.value||"Nosso Amor 💘",20,20);
-    doc.setFontSize(12);
+    doc.setFontSize(16);
     doc.text(descricaoInput.value||"Cada momento é eterno 💖",20,30);
-    doc.text("Cartas 💌:",20,40);
-    cartasData.forEach((carta,i)=>doc.text(`${i+1}. ${carta.texto}`,25,50+i*10));
     doc.save("nosso_amor.pdf");
 });
